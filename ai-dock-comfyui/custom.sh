@@ -6,12 +6,12 @@
 
 # Packages are installed after nodes so we can fix them...
 # "${WORKSPACE}/storage/stable_diffusion/models/ckpt"
-models_dir=/opt/ComfyUI/models
+models_dir="${WORKSPACE}/storage/stable_diffusion/models"
 custom_nodes_dir=/opt/ComfyUI/custom_nodes
 
-checkpoints_dir=${models_dir}/checkpoints
+checkpoints_dir=${models_dir}/ckpt
 vae_dir=${models_dir}/vae
-loras_dir=${models_dir}/loras
+loras_dir=${models_dir}/lora
 upscale_dir=${models_dir}/upscale_models
 controlnet_dir=${models_dir}/controlnet
 clip_vision_dir=${models_dir}/clip_vision
