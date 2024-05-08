@@ -17,7 +17,7 @@ controlnet_dir=${models_dir}/controlnet
 clip_vision_dir=${models_dir}/clip_vision
 esrgan_dir=${models_dir}/esrgan
 #ipadapter_dir=${models_dir}/ipadapter
-instantid_dir=${models_dir}/instantid
+#instantid_dir=${models_dir}/instantid
 
 PYTHON_PACKAGES=(
     #"opencv-python==4.7.0.72"
