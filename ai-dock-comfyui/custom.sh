@@ -15,8 +15,9 @@ loras_dir=${models_dir}/lora
 upscale_dir=${models_dir}/upscale_models
 controlnet_dir=${models_dir}/controlnet
 clip_vision_dir=${models_dir}/clip_vision
-esrgan_dir=${models_dir}/clip_vision
-ipadapter_dir=${models_dir}/ipadapter
+esrgan_dir=${models_dir}/esrgan
+#ipadapter_dir=${models_dir}/ipadapter
+instantid_dir=${models_dir}/instantid
 
 PYTHON_PACKAGES=(
     #"opencv-python==4.7.0.72"
@@ -125,11 +126,13 @@ function provisioning_start() {
         "${ESRGAN_MODELS[@]}"
     
     #CUSTOM
+    provisioning_ipadapter
     provisioning_instantid
     provisioning_ipadapterplus
-    provisioning_get_models \
-        "${ipadapter_dir}" \
-        "${IPADAPTER_MODELS[@]}"
+    
+    #provisioning_get_models \
+    #    "${ipadapter_dir}" \
+    #    "${IPADAPTER_MODELS[@]}"
     provisioning_print_end
 }
 
@@ -201,27 +204,61 @@ function provisioning_download() {
 # INSTANTID
 function provisioning_instantid() {
     instantid_dir=${models_dir}/instantid
-    insightface_dir=${models_dir}/insightface/models
+    insightface_dir=${models_dir}/insightface
+    insightfacemodel_dir=${models_dir}/insightface/models
 
-    (cd ${models_dir}  && mkdir instantid)    
-    (cd ${models_dir}  && mkdir insightface)    
-    (cd ${models_dir}/insightface && mkdir models) 
+    if [[ -d $instantid_dir ]]; then
+        (cd ${models_dir}  && mkdir instantid)
+    fi    
+    printf "\n Download instantid-ip-adapter.bin...\n"
+    wget https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin -O ${instantid_dir}/instantid-ip-adapter.bin
+
+    if [[ -d $insightface_dir ]]; then
+        (cd ${models_dir}  && mkdir insightface)
+    fi  
+
+    printf "\n Download instantid models...\n"
     wget https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors -O ${controlnet_dir}/instantid-diffusion_pytorch_model.safetensors
-    wget https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin -O ${instantid_dir}/instantid-ip-adapter.bin       
-    wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip -O ${insightface_dir}/antelopev2.zip
-    printf "\nUnzip antelopev2...\n"
-    (cd ${insightface_dir} && unzip antelopev2.zip)    
+    #wget https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin -O ${instantid_dir}/instantid-ip-adapter.bin       
+    
+    
+    if [[ -d $insightfacemodel_dir ]]; then
+        (cd ${insightfacemodel_dir}  && mkdir models)
+    fi 
+    printf "\n Download antelopev2...\n"
+    wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip -O ${insightfacemodel_dir}/antelopev2.zip
+    printf "\n Unzip antelopev2...\n"
+    (cd ${insightfacemodel_dir} && unzip antelopev2.zip)    
+}
+
+
+# IPAdapter
+function provisioning_ipadapter() {
+    ipadapter_dir=${models_dir}/ipadapter
+
+    if [[ -d $ipadapter_dir ]]; then
+        (cd ${models_dir} && mkdir ipadapter)  
+    fi
+      
+    printf "\nPROVISIONING IPAdapter...\n"
+    provisioning_get_models \
+        "${ipadapter_dir}" \
+        "${IPADAPTER_MODELS[@]}"
+    
+    #wget https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors -O ${clip_vision_dir}/CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors
+    #wget https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors -O ${clip_vision_dir}/CLIP-ViT-bigG-14-laion2B-39B-b160k.safetensors
+
 }
 
 #ComfyUI IPAdapter plus
 function provisioning_ipadapterplus() {
     ipadapterplus_dir=${custom_nodes_dir}/ComfyUI_IPAdapter_plus
-
+    
+    printf "\nCLIP VISION ipadapterplus...\n"
     if [[ -d $clip_vision_dir ]]; then
         (cd ${models_dir}  && mkdir clip_vision)  
     fi
       
-    printf "\nCLIP VISION ipadapterplus...\n"
     wget https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors -O ${clip_vision_dir}/CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors
     wget https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors -O ${clip_vision_dir}/CLIP-ViT-bigG-14-laion2B-39B-b160k.safetensors
 
