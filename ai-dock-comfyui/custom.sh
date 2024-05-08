@@ -208,13 +208,13 @@ function provisioning_instantid() {
     insightface_dir=${models_dir}/insightface
     insightfacemodel_dir=${models_dir}/insightface/models
 
-    if [[ -d $instantid_dir ]]; then
+    if [[ ! -d $instantid_dir ]]; then
         (cd ${models_dir}  && mkdir instantid)
     fi    
     printf "\n Download instantid-ip-adapter.bin...\n"
     wget https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin -O ${instantid_dir}/instantid-ip-adapter.bin
 
-    if [[ -d $insightface_dir ]]; then
+    if [[ ! -d $insightface_dir ]]; then
         (cd ${models_dir}  && mkdir insightface)
     fi  
 
@@ -223,7 +223,7 @@ function provisioning_instantid() {
     #wget https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin -O ${instantid_dir}/instantid-ip-adapter.bin       
     
     
-    if [[ -d $insightfacemodel_dir ]]; then
+    if [[ ! -d $insightfacemodel_dir ]]; then
         (cd ${insightfacemodel_dir}  && mkdir models)
     fi 
     printf "\n Download antelopev2...\n"
@@ -237,7 +237,7 @@ function provisioning_instantid() {
 function provisioning_ipadapter() {
     ipadapter_dir=${models_dir}/ipadapter
 
-    if [[ -d $ipadapter_dir ]]; then
+    if [[ ! -d $ipadapter_dir ]]; then
         (cd ${models_dir} && mkdir ipadapter)  
     fi
       
@@ -256,7 +256,7 @@ function provisioning_ipadapterplus() {
     ipadapterplus_dir=${custom_nodes_dir}/ComfyUI_IPAdapter_plus
     
     printf "\nCLIP VISION ipadapterplus...\n"
-    if [[ -d $clip_vision_dir ]]; then
+    if [[ ! -d $clip_vision_dir ]]; then
         (cd ${models_dir}  && mkdir clip_vision)  
     fi
       
