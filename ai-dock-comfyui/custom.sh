@@ -224,7 +224,7 @@ function provisioning_instantid() {
     
     
     if [[ ! -d $insightfacemodel_dir ]]; then
-        (cd ${insightfacemodel_dir}  && mkdir models)
+        (cd ${insightface_dir}  && mkdir models)
     fi 
     printf "\n Download antelopev2...\n"
     wget https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip -O ${insightfacemodel_dir}/antelopev2.zip
