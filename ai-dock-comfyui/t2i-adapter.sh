@@ -32,20 +32,24 @@ CONTROLNET_MODELS=(
     "${controlnet_dir}/t2i-adapter-sketch-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-sketch-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
     "${controlnet_dir}/t2i-adapter-depth-midas-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-depth-midas-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
     "${controlnet_dir}/t2i-adapter-depth-zoe-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-depth-zoe-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
-    "${controlnet_dir}/t2i-adapter-openpose-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-openpose-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
-    
+    "${controlnet_dir}/t2i-adapter-openpose-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-openpose-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors" 
 )
-for Servers in "${CONTROLNET_MODELS[@]}"; do
-    # Extract server name and IP address using awk
-    FileName=$(echo "$CONTROLNET_MODELS" | awk -F', ' '{ print $1 }')
-    FileURL=$(echo "$CONTROLNET_MODELS" | awk -F', ' '{ print $2 }')
-    
-    # Print the server name and IP address
-    #echo "File Name: $FileName, File Url Address: $FileURL"
 
-    if [[ ! -e ${FileName} ]]; then
-        printf "Downloading ${FileName}...\n"
-        download ${FileURL} ${FileName}
-    fi
-done
+function provisioning_get_controlnet() {
+    for CONTROLNET in "${CONTROLNET_MODELS[@]}"; do
+        # Extract server name and IP address using awk
+        FileName=$(echo "$CONTROLNET" | awk -F', ' '{ print $1 }')
+        FileURL=$(echo "$CONTROLNET" | awk -F', ' '{ print $2 }')
+        
+        # Print the server name and IP address
+        #echo "File Name: $FileName, File Url Address: $FileURL"
+    
+        if [[ ! -e ${FileName} ]]; then
+            printf "Downloading ${FileName}...\n"
+            download ${FileURL} ${FileName}
+        fi
+    done
+}
+
+provisioning_get_controlnet
 
