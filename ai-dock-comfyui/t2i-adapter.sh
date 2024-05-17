@@ -30,10 +30,6 @@ CONTROLNET_MODELS=(
     "${controlnet_dir}/control_canny-fp16.safetensors, https://huggingface.co/webui/ControlNet-modules-safetensors/resolve/main/control_canny-fp16.safetensors"
     
 )
-#if [[ ! -e ${model_file} ]]; then
-#    printf "Downloading Canny...\n"
-#    download ${model_url} ${model_file}
-#fi
 for Servers in "${CONTROLNET_MODELS[@]}"; do
     # Extract server name and IP address using awk
     FileName=$(echo "$CONTROLNET_MODELS" | awk -F', ' '{ print $1 }')
@@ -43,7 +39,7 @@ for Servers in "${CONTROLNET_MODELS[@]}"; do
     #echo "File Name: $FileName, File Url Address: $FileURL"
 
     if [[ ! -e ${FileName} ]]; then
-        printf "Downloading Canny...\n"
+        printf "Downloading ${FileName}...\n"
         download ${FileURL} ${FileName}
     fi
 done
