@@ -22,12 +22,17 @@ upscale_dir=${models_dir}/upscale_models
 
 ## example
 
-model_file=${controlnet_dir}/control_canny-fp16.safetensors
-model_url=https://huggingface.co/webui/ControlNet-modules-safetensors/resolve/main/control_canny-fp16.safetensors
+#model_file=${controlnet_dir}/control_canny-fp16.safetensors
+#model_url=https://huggingface.co/webui/ControlNet-modules-safetensors/resolve/main/control_canny-fp16.safetensors
 
 CONTROLNET_MODELS=(
     #format "local file, url download"
-    "${controlnet_dir}/control_canny-fp16.safetensors, https://huggingface.co/webui/ControlNet-modules-safetensors/resolve/main/control_canny-fp16.safetensors"
+    "${controlnet_dir}/t2i-adapter-lineart-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-lineart-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+    "${controlnet_dir}/t2i-adapter-canny-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-canny-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+    "${controlnet_dir}/t2i-adapter-sketch-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-sketch-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+    "${controlnet_dir}/t2i-adapter-depth-midas-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-depth-midas-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+    "${controlnet_dir}/t2i-adapter-depth-zoe-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-depth-zoe-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
+    "${controlnet_dir}/t2i-adapter-openpose-sdxl-1.0.safetensors, https://huggingface.co/TencentARC/t2i-adapter-openpose-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors"
     
 )
 for Servers in "${CONTROLNET_MODELS[@]}"; do
